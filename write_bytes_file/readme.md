@@ -1,0 +1,1 @@
+<p>You can write using just the os package which is needed already to open the file. Since all Go executables are statically linked binaries, every package you import increases the size of your executable. Other packages like io, ioutil, and bufio provide some more help, but they are not necessary.</p>
