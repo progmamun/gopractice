@@ -1,0 +1,1 @@
+The example above copies the entire file in to memory. This was for convenience to pass it as a parameter to each of the hash functions. Another approach is to create the hash writer interface and write to it using Write(), WriteString(), or in this case, Copy(). The example below uses the md5 hash, but you can switch to use any of the others that are supported.
