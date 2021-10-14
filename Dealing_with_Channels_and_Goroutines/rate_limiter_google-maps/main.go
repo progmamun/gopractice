@@ -53,7 +53,7 @@ func NewClient(tick time.Duration, key string) *Client {
 
 // https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
 // https://maps.googleapis.com/maps/api/geocode/json?latlng=%v,%v
-const url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDolwQtLcRXoAEbkNeH3ye8iLWOjxhhPqA"
+const url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=api-key"
 <-c.tick.C
 resp, err := c.client.Get(fmt.Sprintf(url, lat, lng))
 if err != nil {
@@ -79,7 +79,7 @@ func main() {
 		return nil, fmt.Errorf("status: %q", v.Status)
 	}
 
-	c := NewClient(24*time.Hour/100000, os.Getenv("AIzaSyDolwQtLcRXoAEbkNeH3ye8iLWOjxhhPqA")) // ("your_api")
+	c := NewClient(24*time.Hour/100000, os.Getenv("api-")) // ("your_api")
 	start := time.Now()
 	for _, l := range [][2]float64{
 		{40.4216448, -3.6904040},
