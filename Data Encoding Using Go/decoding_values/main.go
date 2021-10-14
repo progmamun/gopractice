@@ -16,3 +16,14 @@ func main() {
 		log.Println(r)
 	}
 }
+
+/*func main() {
+r := csv.NewReader(strings.NewReader("a,b,c\ne,f,g\n1,2,3"))
+records, err := r.ReadAll()
+if err != nil {
+log.Fatal(err)
+}
+for _, r := range records {
+log.Println(r)
+}
+}*/
