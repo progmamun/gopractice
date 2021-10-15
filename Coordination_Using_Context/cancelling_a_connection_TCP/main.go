@@ -1,0 +1,63 @@
+package main
+
+
+addr := os.Args[1]
+go func() {
+	time.Sleep(time.Second)
+	listener, err := net.Listen("tcp", addr)
+	if err != nil {
+	log.Fatalln("Listener:", addr, err)
+	}
+	c, err := listener.Accept()
+	if err != nil {
+	log.Fatalln("Listener:", addr, err)
+	}
+	defer c.Close()
+	}()
+
+	ctx, canc := context.WithTimeout(context.Background(),
+time.Millisecond*100)
+defer canc()
+conn, err := (&net.Dialer{}).DialContext(ctx, "tcp", os.Args[1])
+if err != nil {
+log.Fatalln("-> Connection:", err)
+}
+log.Println("-> Connection to", os.Args[1])
+conn.Close()
+
+list := []string{
+	"localhost:9090",
+	"localhost:9091",
+	"localhost:9092",
+	}
+	go func() {
+	listener, err := net.Listen("tcp", list[0])
+	if err != nil {
+	log.Fatalln("Listener:", list[0], err)
+	}
+	time.Sleep(time.Second * 5)
+	c, err := listener.Accept()
+	if err != nil {
+	log.Fatalln("Listener:", list[0], err)
+	}
+	defer c.Close()
+	}()
+
+	ctx, canc := context.WithTimeout(context.Background(), time.Second*10)
+defer canc()
+wg := sync.WaitGroup{}
+wg.Add(len(list))
+for _, addr := range list {
+go func(addr string) {
+defer wg.Done()
+conn, err := (&net.Dialer{}).DialContext(ctx, "tcp", addr)
+if err != nil {
+log.Println("-> Connection:", err)
+return
+}
+log.Println("-> Connection to", addr, "cancelling context")
+canc()
+conn.Close()
+}(addr)
+}
+wg.Wait()
